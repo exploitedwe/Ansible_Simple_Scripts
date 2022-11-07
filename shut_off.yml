@@ -1,0 +1,20 @@
+---
+- hosts: all
+  #stratgy: free
+  gather_facts: no
+  tasks:
+
+  - name: Gather all legacy facts
+    cisco.ios.ios_facts:
+      gather_subset: all
+
+  - name: Shutdown notconnect interfaces
+    ios_config:
+      lines:
+        - description UNUSED
+        - switchport mode access
+        - switchport access vlan 666
+        - shutdown
+      parents: "interface {{ item.key }}"
+    with_dict: "{{ ansible_net_interfaces }}"
+    when: item.value.operstatus == "down"

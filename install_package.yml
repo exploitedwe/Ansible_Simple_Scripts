@@ -1,0 +1,11 @@
+---
+    - name: Install package
+      hosts: all
+      become: yes
+      gather_facts: false
+      tasks:
+      - name: apt
+        apt:
+          name: "{{ package | default (None) }}"
+          update_cache: yes
+    
