@@ -10,4 +10,4 @@
 
   - name: Print the gateway for each host when defined
     ansible.builtin.debug:
-      msg: System {{ ansible_net_hostname }} with serial {{ ansible_net_serialnum | default("UNDEFINED") }} is and model {{ ansible_net_model}} is at version {{ ansible_net_version }}
+      msg: System {{ ansible_net_hostname }} with serial {{ ansible_net_serialnum | default("UNDEFINED") }} and model {{ ansible_net_model}} is at version {{ ansible_net_version }}
