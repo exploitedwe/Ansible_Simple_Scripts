@@ -19,21 +19,18 @@
           - service finger
           - service tcp-small-servers
           - service udp-small-servers
-        state: absent
         
     - name: IOS Switch NDM V-220586 continued.
       cisco.ios.ios_config:
         lines:
           - no ip dns server
           - no ip identd
-        state: absent
       when: ansible_net_hostname == "SDP"
 
     - name: IOS Switch NDM V-220595, Review the switch configuration to determine if passwords are encrypted
       cisco.ios.ios_config:
         lines: 
           - service password-encryption
-        state: present
 
     - name: IOS Switch NDM V-220596, Review the Cisco switch configuration to verify that all network connections associated with a device management have an idle timeout value set to 10 minutes or less
       cisco.ios.ios_config:
@@ -42,20 +39,17 @@
         parents:
           - line con 0
           - line vty 0 4
-        state: present
 
     - name: IOS Switch NDM V-220607, Review the Cisco switch configuration to verify that it uses FIPS-validated HMAC
       cisco.ios.ios_config:
         lines: 
           - ip ssh version 2
           - ip ssh server algorithm mac hmac-sha1 hmac-sha1-96
-        state: present
           
     - name: IOS Switch NDM V-220607 continued
       cisco.ios.ios_config:
         lines: 
           - ip ssh server algorithm mac hmac-sha2-256 hmac-sha2-512
-        state: present
       when: ansible_net_hostname == "SDP"
                     
 
@@ -65,13 +59,11 @@
           - ip ssh version 2
           - ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
           - no ip ssh server algorithm encryption 3des-cbc
-        state: present
         
     - name: IOS Switch NDM V-220608 continued
       cisco.ios.ios_config:
         lines: 
           - ip ssh server algorithm encryption 3des-cbc
-        state: absent
 
     - name: Save running to startup when modified
       cisco.ios.ios_config:
@@ -81,13 +73,11 @@
       cisco.ios.ios_config:
         lines: 
           - logging host 10.111.222.227
-        state: present
 
     - name: IOS Switch NDM V-220623 [Prerequisite config check]
       cisco.ios.ios_config:
         lines:
           - switchport
-        state: present
         parents: "interface {{ item.key }}"
       with_dict: "{{ ansible_net_interfaces }}"
       when: (item.value.operstatus == "down" or item.value.operstatus == "administratively down") and (ansible_net_hostname != "SDP")
@@ -107,7 +97,6 @@
           - dot1x pae authenticator
           - mab
           - shutdown
-        state: present
         parents: "interface {{ item.key }}"
       with_dict: "{{ ansible_net_interfaces }}"
       when: (item.value.operstatus == "down" or item.value.operstatus == "administratively down") and (ansible_net_hostname != "SDP")
