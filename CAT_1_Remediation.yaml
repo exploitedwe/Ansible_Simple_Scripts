@@ -1,0 +1,77 @@
+---
+- hosts: all
+  gather_facts: no
+
+  tasks:
+    - name: Gather Facts
+      cisco.ios.ios_facts:
+        gather_subset: all
+
+    - name: IOS Switch NDM V-220586, Verify that the switch does not have any unnecessary or non-secure ports, protocols, and services enabled.
+      cisco.ios.ios_config:
+        lines: 
+          - no ip boot server
+          - no ip bootp server
+          - no ip dns server
+          - no ip identd
+          - no ip finger
+          - no ip http server
+          - no ip rcmd rcp-enable
+          - no ip rcmd rsh-enable
+          - no service config
+          - no service finger
+          - no service tcp-small-servers
+          - no service udp-small-servers
+
+    - name: IOS Switch NDM V-220595, Review the switch configuration to determine if passwords are encrypted
+      cisco.ios.ios_config:
+        lines: 
+          - service password-encryption
+
+    - name: IOS Switch NDM V-220596, Review the Cisco switch configuration to verify that all network connections associated with a device management have an idle timeout value set to 10 minutes or less
+      cisco.ios.ios_config:
+        lines: 
+          - exec-timeout 10 0
+        parents:
+          - line con 0
+          - line vty 0 4
+
+    - name: IOS Switch NDM V-220607, Review the Cisco switch configuration to verify that it uses FIPS-validated HMAC
+      cisco.ios.ios_config:
+        lines: 
+          - ip ssh version 2
+          - no ip ssh server algorithm mac hmac-sha1
+          - no ip ssh server algorithm mac hmac-sha1-96
+          - ip ssh server algorithm mac hmac-sha2-256 hmac-sha2-512
+
+    - name: IOS Switch NDM V-220608, Review the Cisco switch configuration to verify that it implements cryptographic mechanisms to protect the confidentiality of remote maintenance sessions using a FIPS 140-2 approved algorithm
+      cisco.ios.ios_config:
+        lines: 
+          - ip ssh version 2
+          - no ip ssh server algorithm encryption 3des-cbc
+          - ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+
+    - name: Save running to startup when modified
+      cisco.ios.ios_config:
+        save_when: always
+
+    - name: IOS Switch NDM V-220620, Verify that the switch is configured to send logs to a central log server.
+      cisco.ios.ios_config:
+        lines: 
+          - logging host 10.111.222.227
+
+    - name: 
+      cisco.ios.ios_config:
+        lines: 
+          - switchport access vlan 12
+          - switchport mode access
+          - authentication port-control auto
+          - dot1x pae authenticator
+        parents: "interface {{ item.key }}"
+      with_dict: "{{ ansible_net_interfaces }}"
+      when: (item.value.operstatus == "down") or (item.value.mode == "access")
+
+    - name: IOS Switch NDM V-220621, The Cisco switch must be running an IOS release that is currently supported by Cisco Systems.
+      ansible.builtin.debug:
+        msg: System {{ inventory_name }} is non-compliant and at version - {{ ansible_net_version }}
+      when: (ansible_net_version != "15.2(20200924:215240)") or (ansible_net_version != "15.9(3)M3")
