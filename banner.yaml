@@ -1,9 +1,13 @@
 ---
 - hosts: all
-  gather_facts: true
+  gather_facts: no
   vars_files: banner.cfg
 
   tasks:
+    - name: Gather all legacy facts
+      cisco.ios.ios_facts:
+        gather_subset: all
+        
     - name: Set banner for Cisco IOS
       cisco.ios.ios_banner:
         state: present
