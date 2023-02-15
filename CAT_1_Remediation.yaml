@@ -12,7 +12,6 @@
         lines: 
           - no ip boot server
           - no ip bootp server
-          - no ip dns server
           - no ip identd
           - no ip finger
           - no ip http server
