@@ -70,10 +70,16 @@
 
     - name: IOS Switch NDM V-220623, Verify that 802.1x is configured on all host-facing interfaces
       cisco.ios.ios_config:
-        lines: 
+        lines:
+          - description UNUSED->SHUTDOWN
           - switchport access vlan 666
           - switchport mode access
           - authentication port-control auto
+          - authentication order mab dot1x
+          - authentication priority dot1x mab
+          - authentication violation shutdown
+          - authentication periodic
+          - authentication host-mode single-host
           - dot1x pae authenticator
           - mab
           - shutdown
