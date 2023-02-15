@@ -13,6 +13,18 @@
         state: present
         banner: motd
         text: "{{ motd }}"
+      cisco.ios.ios_banner:
+        state: present
+        banner: login
+        text: "{{ login }}"
+      cisco.ios.ios_banner:
+        state: present
+        banner: exec
+        text: "{{ exec }}"
+      cisco.ios.ios_banner:
+        state: present
+        banner: incoming
+        text: "{{ incoming }}"
       when: ansible_network_os == 'ios'
     
     - name: Set banner for Cisco NX-OS
@@ -20,6 +32,18 @@
         state: present
         banner: motd
         text: "{{ motd }}"
+      cisco.nxos.nxos_banner:
+        state: present
+        banner: login
+        text: "{{ login }}"
+      cisco.nxos.nxos_banner:
+        state: present
+        banner: exec
+        text: "{{ exec }}"
+      cisco.nxos.nxos_banner:
+        state: present
+        banner: incoming
+        text: "{{ incoming }}"
       when: ansible_network_os == 'nxos'
 
     - name: Set banner for Cisco IOS XR
@@ -27,4 +51,16 @@
         state: present
         banner: motd
         text: "{{ motd }}"
+      cisco.iosxr.iosxr_banner:
+        state: present
+        banner: login
+        text: "{{ login }}"
+      cisco.iosxr.iosxr_banner:
+        state: present
+        banner: exec
+        text: "{{ exec }}"
+      cisco.iosxr.iosxr_banner:
+        state: present
+        banner: incoming
+        text: "{{ incoming }}"
       when: ansible_network_os == 'iosxr'
