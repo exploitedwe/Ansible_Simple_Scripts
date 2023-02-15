@@ -74,7 +74,7 @@
           - shutdown
         parents: "interface {{ item.key }}"
       with_dict: "{{ ansible_net_interfaces }}"
-      when: item.value.operstatus == "down" or item.value.operstatus == "administratively down"
+      when: (item.value.operstatus == "down" or item.value.operstatus == "administratively down") and (ansible_net_hostname != "SDP")
 
     - name: IOS Switch NDM V-220621, The Cisco switch must be running an IOS release that is currently supported by Cisco Systems.
       ansible.builtin.debug:
