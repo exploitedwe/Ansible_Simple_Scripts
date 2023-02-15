@@ -7,16 +7,28 @@
     - name: Gather all legacy facts
       cisco.ios.ios_facts:
         gather_subset: all
-        
+    - name: Blank out the Banners
+      cisco.ios.ios_config
+        lines: 
+        - no banner motd
+        - no banner login
+        - no banner exec
+        - no banner incoming
     - name: Set banner for Cisco IOS
       cisco.ios.ios_banner:
         state: present
         banner: motd
         text: "{{ motd }}"
+      cisco.ios.ios_banner:
+        state: present
         banner: login
         text: "{{ login }}"
+      cisco.ios.ios_banner:
+        state: present
         banner: exec
         text: "{{ exec }}"
+      cisco.ios.ios_banner:
+        state: present
         banner: incoming
         text: "{{ incoming }}"
       when: ansible_network_os == 'ios'
@@ -26,10 +38,16 @@
         state: present
         banner: motd
         text: "{{ motd }}"
+      cisco.nxos.nxos_banner:
+        state: present
         banner: login
         text: "{{ login }}"
+      cisco.nxos.nxos_banner:
+        state: present
         banner: exec
         text: "{{ exec }}"
+      cisco.nxos.nxos_banner:
+        state: present
         banner: incoming
         text: "{{ incoming }}"
       when: ansible_network_os == 'nxos'
@@ -39,10 +57,16 @@
         state: present
         banner: motd
         text: "{{ motd }}"
+      cisco.iosxr.iosxr_banner:
+        state: present
         banner: login
         text: "{{ login }}"
+      cisco.iosxr.iosxr_banner:
+        state: present
         banner: exec
         text: "{{ exec }}"
+      cisco.iosxr.iosxr_banner:
+        state: present
         banner: incoming
         text: "{{ incoming }}"
       when: ansible_network_os == 'iosxr'
