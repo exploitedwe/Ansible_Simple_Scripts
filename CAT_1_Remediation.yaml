@@ -10,9 +10,7 @@
     - name: IOS Switch NDM V-220586, Verify that the switch does not have any unnecessary or non-secure ports, protocols, and services enabled.
       cisco.ios.ios_config:
         lines: 
-          - no ip boot server
           - no ip bootp server
-          - no ip identd
           - no ip finger
           - no ip http server
           - no ip rcmd rcp-enable
@@ -25,6 +23,7 @@
       cisco.ios.ios_config:
         lines:
           - no ip dns server
+          - no ip identd
       when: "{{ inventory_name }} == 'SDP'"
 
     - name: IOS Switch NDM V-220595, Review the switch configuration to determine if passwords are encrypted
