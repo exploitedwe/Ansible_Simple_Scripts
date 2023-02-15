@@ -12,6 +12,7 @@
         lines: 
           - no ip boot server
           - no ip bootp server
+          - no ip dns server
           - no ip identd
           - no ip finger
           - no ip http server
@@ -21,6 +22,11 @@
           - no service finger
           - no service tcp-small-servers
           - no service udp-small-servers
+    - name: IOS Switch NDM V-220586 continued.
+      cisco.ios.ios_config:
+        lines:
+          - no ip dns server
+      when: "{{ inventory_name }} == 'SDP'"
 
     - name: IOS Switch NDM V-220595, Review the switch configuration to determine if passwords are encrypted
       cisco.ios.ios_config:
@@ -59,16 +65,18 @@
         lines: 
           - logging host 10.111.222.227
 
-    - name: 
+    - name: IOS Switch NDM V-220623, Verify that 802.1x is configured on all host-facing interfaces
       cisco.ios.ios_config:
         lines: 
-          - switchport access vlan 12
+          - switchport access vlan 666
           - switchport mode access
           - authentication port-control auto
           - dot1x pae authenticator
+          - mab
+          - shutdown
         parents: "interface {{ item.key }}"
       with_dict: "{{ ansible_net_interfaces }}"
-      when: (item.value.operstatus == "down") or (item.mode == "access")
+      when: item.value.operstatus == "down" or item.value.operstatus == "administratively down"
 
     - name: IOS Switch NDM V-220621, The Cisco switch must be running an IOS release that is currently supported by Cisco Systems.
       ansible.builtin.debug:
