@@ -24,7 +24,7 @@
         lines:
           - no ip dns server
           - no ip identd
-      when: "SDP" == ansible_net_hostname
+      when: ansible_net_hostname == "SDP"
 
     - name: IOS Switch NDM V-220595, Review the switch configuration to determine if passwords are encrypted
       cisco.ios.ios_config:
