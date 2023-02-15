@@ -43,9 +43,14 @@
       cisco.ios.ios_config:
         lines: 
           - ip ssh version 2
+          - ip ssh server algorithm mac hmac-sha1 hmac-sha1-96
+          
+    - name: IOS Switch NDM V-220607 continued
+      cisco.ios.ios_config:
+        lines: 
           - ip ssh server algorithm mac hmac-sha2-256 hmac-sha2-512
-          - no ip ssh server algorithm mac hmac-sha1
-          - no ip ssh server algorithm mac hmac-sha1-96
+      when: ansible_net_hostname == "SDP"
+                    
 
     - name: IOS Switch NDM V-220608, Review the Cisco switch configuration to verify that it implements cryptographic mechanisms to protect the confidentiality of remote maintenance sessions using a FIPS 140-2 approved algorithm
       cisco.ios.ios_config:
