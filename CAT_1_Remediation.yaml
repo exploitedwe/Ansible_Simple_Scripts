@@ -43,16 +43,16 @@
       cisco.ios.ios_config:
         lines: 
           - ip ssh version 2
+          - ip ssh server algorithm mac hmac-sha2-256 hmac-sha2-512
           - no ip ssh server algorithm mac hmac-sha1
           - no ip ssh server algorithm mac hmac-sha1-96
-          - ip ssh server algorithm mac hmac-sha2-256 hmac-sha2-512
 
     - name: IOS Switch NDM V-220608, Review the Cisco switch configuration to verify that it implements cryptographic mechanisms to protect the confidentiality of remote maintenance sessions using a FIPS 140-2 approved algorithm
       cisco.ios.ios_config:
         lines: 
           - ip ssh version 2
-          - no ip ssh server algorithm encryption 3des-cbc
           - ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+          - no ip ssh server algorithm encryption 3des-cbc
 
     - name: Save running to startup when modified
       cisco.ios.ios_config:
