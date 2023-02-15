@@ -8,6 +8,6 @@
     cisco.ios.ios_facts:
       gather_subset: all
 
-  - name: Print the gateway for each host when defined
+  - name: Print the hostname and SN for each device
     ansible.builtin.debug:
       msg: System {{ ansible_net_hostname }} with serial {{ ansible_net_serialnum | default("UNDEFINED") }} and model {{ ansible_net_model}} is at version {{ ansible_net_version }}
