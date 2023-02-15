@@ -69,7 +69,7 @@
           - dot1x pae authenticator
         parents: "interface {{ item.key }}"
       with_dict: "{{ ansible_net_interfaces }}"
-      when: (item.value.operstatus == "down") or (item.value.mode == "access")
+      when: (item.value.operstatus == "down") or (item.mode == "access")
 
     - name: IOS Switch NDM V-220621, The Cisco switch must be running an IOS release that is currently supported by Cisco Systems.
       ansible.builtin.debug:
