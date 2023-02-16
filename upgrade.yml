@@ -8,3 +8,4 @@
     apt:
       update_cache: yes
       upgrade: 'yes'
+    when: "{{ inventory_hostname }}" == "Dune"
