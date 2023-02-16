@@ -10,15 +10,15 @@
     - name: IOS Switch NDM V-220586, Verify that the switch does not have any unnecessary or non-secure ports, protocols, and services enabled.
       cisco.ios.ios_config:
         lines: 
-          - ip bootp server
-          - ip finger
-          - ip http server
-          - ip rcmd rcp-enable
-          - ip rcmd rsh-enable
-          - service config
-          - service finger
-          - service tcp-small-servers
-          - service udp-small-servers
+          - no ip bootp server
+          - no ip finger
+          - no ip http server
+          - no ip rcmd rcp-enable
+          - no ip rcmd rsh-enable
+          - no service config
+          - no service finger
+          - no service tcp-small-servers
+          - no service udp-small-servers
         
     - name: IOS Switch NDM V-220586 continued.
       cisco.ios.ios_config:
