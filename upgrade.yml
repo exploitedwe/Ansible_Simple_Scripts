@@ -7,5 +7,5 @@
   - name: apt
     apt:
       update_cache: yes
-      upgrade: 'yes'
+      upgrade: 'no'
     when: "{{ inventory_hostname }}" == "Dune"
