@@ -11,7 +11,7 @@
       upgrade: 'no'
     when: ansible_distribution == "Ubuntu" or ansible_distribution == "Debian"
 
-  -name: RHEL update
+  - name: RHEL update
     yum:
       name: '*'
       state: latest
