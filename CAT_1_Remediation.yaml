@@ -49,7 +49,7 @@
     - name: IOS Switch NDM V-220607 continued
       cisco.ios.ios_config:
         lines: 
-          - ip ssh server algorithm mac hmac-sha2-256 hmac-sha2-512
+          - ip ssh server algorithm mac hmac-sha1 hmac-sha1-96 hmac-sha2-256 hmac-sha2-512
       when: ansible_net_hostname == "SDP"
                     
 
@@ -58,16 +58,11 @@
         lines: 
           - ip ssh version 2
           - ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
-          - no ip ssh server algorithm encryption 3des-cbc
         
     - name: IOS Switch NDM V-220608 continued
       cisco.ios.ios_config:
         lines: 
-          - ip ssh server algorithm encryption 3des-cbc
-
-    - name: Save running to startup when modified
-      cisco.ios.ios_config:
-        save_when: always
+          - no ip ssh server algorithm encryption 3des-cbc
 
     - name: IOS Switch NDM V-220620, Verify that the switch is configured to send logs to a central log server.
       cisco.ios.ios_config:
@@ -105,3 +100,7 @@
       ansible.builtin.debug:
         msg: System {{ ansible_net_hostname }} is non-compliant and at version - {{ ansible_net_version }}
       when: (ansible_net_version != "15.2(20200924:215240)") and (ansible_net_version != "15.9(3)M3")
+      
+    - name: Save running to startup when modified
+      cisco.ios.ios_config:
+        save_when: always
