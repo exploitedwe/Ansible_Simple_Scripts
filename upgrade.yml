@@ -9,11 +9,14 @@
     apt:
       update_cache: yes
       upgrade: 'no'
-    when: ansible_distribution == "Ubuntu" or ansible_distribution == "Debian"
+    when: ansible_facts['distribution'] == "Ubuntu" or ansible_facts['distribution'] == "Debian"
+
+#    when: ansible_distribution == "Ubuntu" or ansible_distribution == "Debian"
 
   - name: RHEL update
     yum:
       name: '*'
       state: latest
-    when: ansible_distribution == "RedHat"
+    when: ansible_facts['distribution'] == "RedHat"
+ #   when: ansible_distribution == "RedHat"
    
