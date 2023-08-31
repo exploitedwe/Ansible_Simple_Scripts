@@ -1,12 +1,17 @@
 ---
-- name: windows rolling update
-  hosts: all
-  tasks:
-    - name: Install all critical and security updates
-      ansible.windows.win_updates:
-        category_names:
-          - CriticalUpdates
-          - SecurityUpdates
-        state: installed
-        reboot: true
-        log_path: C:\ansible.txt
+#- name: windows rolling update
+#  hosts: all
+#  tasks:
+#    - name: Install all critical and security updates
+#      ansible.windows.win_updates:
+#        category_names:
+#          - CriticalUpdates
+#          - SecurityUpdates
+#        state: installed
+#        reboot: true
+#        log_path: C:\ansible.txt
+
+- name: Run basic PowerShell script
+  ansible.windows.win_powershell:
+    script: |
+      Install-WindowsUpdate -MicrosoftUpdate -AcceptAll -AutoReboot | Out-File "C:\${env:COMPUTERNAME}_$(get-date -f yyyyMMdd)_MSUpdates.log"
